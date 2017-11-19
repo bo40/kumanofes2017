@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kumanofes2017.Views.ItemDetailPage"
+             Title="{Binding Title}">
+    <ScrollView Orientation="Vertical">
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="{Binding Item.Text}" FontSize="Large" TextColor="Black"/>
+            <Label Text="{Binding Item.PlaceWithCaption}" FontSize="Medium" TextColor="Black"/>
+            <Label Text="{Binding Item.StartWithCaption}" FontSize="Medium" TextColor="Black"/>
+            <Label Text="{Binding Item.EndWithCaption}" FontSize="Medium" TextColor="Black"/>
+            <Label Text="{Binding Item.Description}" FontSize="Medium"/>
+            <StackLayout VerticalOptions="Center"
+                         HorizontalOptions="FillAndExpand"
+                         BackgroundColor="White">
+                <Image x:Name="ImageZone" Source="{Binding Item.ImagePath}" Aspect="AspectFit"/>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
