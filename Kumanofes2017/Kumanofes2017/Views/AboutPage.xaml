@@ -10,7 +10,7 @@
             <Button Margin="0,0,0,0"
                 Text="寮祭特設ページへ" 
                 Command="{Binding OpenWebCommand}"
-                BackgroundColor="{StaticResource Primary}"
+                BackgroundColor="{StaticResource PrimaryDark}"
                 TextColor="White"/>
             <Label>
                 <Label.FormattedText>
