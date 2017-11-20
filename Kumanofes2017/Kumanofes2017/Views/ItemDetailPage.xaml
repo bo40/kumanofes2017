@@ -13,7 +13,7 @@
             <StackLayout VerticalOptions="Center"
                          HorizontalOptions="FillAndExpand"
                          BackgroundColor="White">
-                <Image x:Name="ImageZone" Source="{Binding Item.ImagePath}" Aspect="AspectFit"/>
+                <Image x:Name="ImageZone" Source="{Binding Item.ImagePath}"/>
             </StackLayout>
         </StackLayout>
     </ScrollView>

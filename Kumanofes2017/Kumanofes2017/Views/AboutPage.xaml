@@ -6,7 +6,7 @@
              Title="{Binding Title}"
              x:Name="InfoListPage">
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" Padding="16,40,16,40" Spacing="4">
+        <StackLayout Orientation="Vertical" Padding="16,15,16,5" Spacing="4">
             <Button Margin="0,0,0,0"
                 Text="寮祭特設ページへ" 
                 Command="{Binding OpenWebCommand}"
