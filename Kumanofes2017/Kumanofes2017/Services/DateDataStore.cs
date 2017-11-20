@@ -77,6 +77,8 @@ namespace Kumanofes2017.Services
             items = new List<DateItem>();
             var _items = new List<DateItem>
             {
+                new DateItem{ Id = "permanent", Description = "常設企画" },
+                new DateItem{ Id = "guerrilla", Description = "ゲリラ企画" },
                 new DateItem{ Id = "1129", Description = "2017/11/29(水)" },
                 new DateItem{ Id = "1130", Description = "2017/11/30(木)" },
                 new DateItem{ Id = "1201", Description = "2017/12/01(金)" },

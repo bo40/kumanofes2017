@@ -28,14 +28,16 @@ namespace Kumanofes2017
                     },
                     new NavigationPage(new DateListPage())
                     {
-                        Title = "通常企画",
+                        Title = "企画一覧",
                         Icon = Device.OnPlatform<string>("tab_about.png",null,null)
                     },
+                    /*
                     new NavigationPage(new PermaGuerrillaPage())
                     {
                         Title = "常設・ゲリラ企画",
                         Icon = Device.OnPlatform<string>("tab_feed.png",null,null)
                     },
+                    */
                 }
             };
         }
