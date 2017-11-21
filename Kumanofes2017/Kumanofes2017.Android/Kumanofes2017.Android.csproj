@@ -519,6 +519,9 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\kiki.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\poker.jpg" />
+  </ItemGroup>
   <Import Project="..\Kumanofes2017\Kumanofes2017.projitems" Label="Shared" Condition="Exists('..\Kumanofes2017\Kumanofes2017.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
