@@ -9,6 +9,12 @@
             <Label Text="{Binding Item.PlaceWithCaption}" FontSize="Medium" TextColor="Black"/>
             <Label Text="{Binding Item.StartWithCaption}" FontSize="Medium" TextColor="Black"/>
             <Label Text="{Binding Item.EndWithCaption}" FontSize="Medium" TextColor="Black"/>
+            <Button x:Name="pushButton"
+                Margin="0,0,0,0"
+                Text="1時間まえに通知をする"
+                Command="LocalPushCommand"
+                BackgroundColor="{StaticResource PrimaryDark}"
+                TextColor="White"/>
             <Label Text="{Binding Item.Description}" FontSize="Medium"/>
             <StackLayout VerticalOptions="Center"
                          HorizontalOptions="FillAndExpand"

@@ -1,17 +1,19 @@
 ﻿using Kumanofes2017.Models;
+using Xamarin.Forms;
 
 namespace Kumanofes2017.ViewModels
 {
 	public class ItemDetailViewModel : BaseViewModel
 	{
 		public Item Item { get; set; }
+
 		public ItemDetailViewModel(Item item = null)
 		{
-			Title = item.Text;
+			Title = (item == null) ? "" : item.Text;
 			Item = item;
-		}
+        }
 
-		int quantity = 1;
+        int quantity = 1;
 		public int Quantity
 		{
 			get { return quantity; }

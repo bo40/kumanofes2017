@@ -71,9 +71,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\DateListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
