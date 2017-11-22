@@ -10,6 +10,7 @@ using Android.Support.V4.App;
 using Kumanofes2017.Views;
 using Kumanofes2017.ViewModels;
 using Kumanofes2017.Models;
+using Newtonsoft.Json;
 
 namespace Kumanofes2017.Droid
 {
@@ -17,6 +18,7 @@ namespace Kumanofes2017.Droid
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         App _app;
+        readonly int REQUEST_CODE = 5257; // Intent送信リクエストのID
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -44,17 +46,19 @@ namespace Kumanofes2017.Droid
             LoadApplication(_app);
 
             // 通知を表示するメッセージを受信
-            MessagingCenter.Subscribe<ItemDetailPage>(this, "NOTIFY", sender =>
+            MessagingCenter.Subscribe<AlarmSetPage>(this, "NOTIFY", sender =>
             {
                 var alarmIntent = new Intent(this, typeof(AlarmReceiver));
+                alarmIntent.PutExtra("id", sender.Id);
                 alarmIntent.PutExtra("jsonItem", sender.pushItem);
                 alarmIntent.PutExtra("title", sender.pushTitle);
                 alarmIntent.PutExtra("message", sender.pushMessage);
 
-                var pending = PendingIntent.GetBroadcast(this, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
+                var pending = PendingIntent.GetBroadcast(this, REQUEST_CODE + int.Parse(sender.Id), alarmIntent,  PendingIntentFlags.OneShot);
 
                 var alarmManager = GetSystemService(AlarmService).JavaCast<AlarmManager>();
-                alarmManager.Set(AlarmType.ElapsedRealtime, SystemClock.ElapsedRealtime() + 5 * 1000, pending);
+                // alarmManager.Set(AlarmType.ElapsedRealtime, SystemClock.ElapsedRealtime() + 5 * 1000, pending);
+                alarmManager.SetExact(AlarmType.RtcWakeup, sender.pushTimeMillis, pending);
             });
         }
 
@@ -67,13 +71,14 @@ namespace Kumanofes2017.Droid
 
             if (intent?.Data != null)
             {
-                var uri = intent.Data;
+                var uri = intent.Data.ToString();
 
                 // ここに来たということは、Formsの画面は表示中なはずなので、
                 // 現在表示されている Page の Navigation をどうにかして得て、
                 // PushAsync などができる
                 _app.SwitchToDateList();
-                _app.DateListCurrentPage.Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel()));
+                Item item = JsonConvert.DeserializeObject<Item>(uri);
+                _app.DateListCurrentPage.Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
             }
         }
     }

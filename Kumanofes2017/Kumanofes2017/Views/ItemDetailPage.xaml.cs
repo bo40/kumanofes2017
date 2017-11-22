@@ -17,24 +17,16 @@ namespace Kumanofes2017.Views
         public ItemDetailPage()
         {
             InitializeComponent();
-
-            pushButton.Clicked += (sender, e) =>
-            {
-                MessagingCenter.Send(this, "NOTIFY");
-            };
         }
 
         public ItemDetailPage(ItemDetailViewModel viewModel)
 		{
 			InitializeComponent();
 
-            pushButton.Clicked += (sender, e) =>
+            pushButton.Clicked += async (sender, e) =>
             {
-                MessagingCenter.Send(this, "NOTIFY");
+                await Navigation.PushAsync(new AlarmSetPage(viewModel.Item));
             };
-            pushItem = JsonConvert.SerializeObject(viewModel.Item);
-            pushTitle = viewModel.Item.Text;
-            pushMessage = "企画があと" + "で始まります";
             BindingContext = this.viewModel = viewModel;
 		}
 	}

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kumanofes2017.Views.AlarmSetPage"
+             Title="通知の時期の設定">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="10">
+                <Label x:Name="Caption"
+                   FontSize="Medium"
+                   TextColor="Black"/>
+                <Label x:Name="CaptionTime"
+                   FontSize="Small"
+                   TextColor="Black"/>
+                <Label Text="通知を行う時期を選択してください"
+                       TextColor="Black"/>
+                <Button x:Name="beforeThirtyMin"
+                    Clicked="beforeThirtyMin_Clicked"
+                    Text="30分前に通知をする"/>
+                <Button x:Name="beforeAnHour"
+                    Clicked="beforeAnHour_Clicked"
+                    Text="1時間前に通知をする"/>
+                <Button x:Name="beforeTwoHour"
+                    Clicked="beforeTwoHour_Clicked"
+                    Text="2時間前に通知をする"/>
+                <Button x:Name="beforeThreeHour"
+                    Clicked="beforeThreeHour_Clicked"
+                    Text="3時間前に通知をする"/>
+                <Button x:Name="beforeDayStart"
+                    Clicked="beforeDay_Clicked"
+                    Text="一日前に通知をする"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

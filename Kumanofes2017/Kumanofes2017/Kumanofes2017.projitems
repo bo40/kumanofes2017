@@ -32,11 +32,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\InfoItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DateDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\InfoDataStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IToast.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DateListViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\InfoDetailViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PermaGuerrillaViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\AlarmSetPage.xaml.cs">
+      <DependentUpon>AlarmSetPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\DateListPage.xaml.cs">
       <DependentUpon>DateListPage.xaml</DependentUpon>
@@ -84,6 +89,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\InfoDetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AlarmSetPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
