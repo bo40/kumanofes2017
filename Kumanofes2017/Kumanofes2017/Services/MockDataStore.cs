@@ -58,6 +58,7 @@ namespace Kumanofes2017.Services
 		public async Task<IEnumerable<Item>> GetItemsAsync(string arg = "", bool forceRefresh = false)
 		{
 			await InitializeAsync(arg);
+
             if (arg == "permanent")
             {
                 return await Task.FromResult(items.Where((Item item) => item.Type == arg));

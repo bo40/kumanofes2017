@@ -42,138 +42,108 @@ namespace Kumanofes2017.Views
             pushMessage = "";
         }
 
-        private void beforeThirtyMin_Clicked(object sender, EventArgs e)
+        public void SetNotification(int min)
         {
             DateTime pushTime;
             CultureInfo culture = CultureInfo.CreateSpecificCulture("ja-JP");
-            if (DateTime.TryParse("2017/" + item.Start, culture, DateTimeStyles.None, out pushTime))
+            if (DateTime.TryParse("2017/" + /*"11/28 17:35"*/ item.Start, culture, DateTimeStyles.None, out pushTime))
             {
-                pushTimeMillis = (long)pushTime.AddMinutes(-30).ToUniversalTime().Subtract(new DateTime (1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
-                pushMessage = "あと30分で企画の開始時間です";
-                if (Application.Current.Properties.ContainsKey(item.Id + ":30"))
+                pushTimeMillis = (long)pushTime.AddMinutes(-min).ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+                pushMessage = "もうすぐ企画の開始時間です";
+                if (Application.Current.Properties.ContainsKey(item.Id))
                 {
-                    DependencyService.Get<IToast>().Show("すでに通知が設定されています");
+                    string json = (string)Application.Current.Properties[item.Id];
+                    // for debug
+                    if (json.Equals(""))
+                    {
+                        ShowToast(1);
+                        return;
+                    }
+                    // -----------
+                    Notification notification = JsonConvert.DeserializeObject<Notification>(json);
+                    if (notification.GetPushTime(min) != 0)
+                    {
+                        DependencyService.Get<IToast>().Show("すでに通知が設定されています");
+                        return;
+                    }
+                    MessagingCenter.Send(this, "NOTIFY");
+                    notification.SetPushTime(min, pushTimeMillis);
+                    notification.jsonItem = this.pushItem;
+                    notification.title = this.pushTitle;
+                    notification.message = this.pushMessage;
+                    Application.Current.Properties[item.Id] = JsonConvert.SerializeObject(notification);
+                    ShowToast(min);
                 }
                 else
                 {
+                    Notification notification = new Notification(item.Id, min, pushTimeMillis);
+                    notification.SetPushTime(min, pushTimeMillis);
+                    notification.jsonItem = this.pushItem;
+                    notification.title = this.pushTitle;
+                    notification.message = this.pushMessage;
                     MessagingCenter.Send(this, "NOTIFY");
-                    Application.Current.Properties[item.Id + ":30"] = true;
-                    DependencyService.Get<IToast>().Show(pushTitle + "の開始30分前に通知が設定されました", true);
-                    Navigation.PopAsync();
+                    Application.Current.Properties[item.Id] = JsonConvert.SerializeObject(notification);
+                    List<string> notify_list = JsonConvert.DeserializeObject<List<string>>((string)Application.Current.Properties["notifications"]);
+                    notify_list.Add(item.Id);
+                    Application.Current.Properties["notifications"] = JsonConvert.SerializeObject(notify_list);
+                    ShowToast(min);
                 }
+                Navigation.PopAsync();
             }
             else
             {
                 DependencyService.Get<IToast>().Show("常設企画やゲリラ企画は通知を設定できません", true);
                 Navigation.PopAsync();
             }
+        }
+
+        private void beforeThirtyMin_Clicked(object sender, EventArgs e)
+        {
+            SetNotification(30);
         }
 
         private void beforeAnHour_Clicked(object sender, EventArgs e)
         {
-            DateTime pushTime;
-            CultureInfo culture = CultureInfo.CreateSpecificCulture("ja-JP");
-            if (DateTime.TryParse("2017/" + item.Start, culture, DateTimeStyles.None, out pushTime))
-            {
-                pushTimeMillis = (long)pushTime.AddHours(-1).ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
-                pushMessage = "あと１時間で企画の開始時間です";
-                if (Application.Current.Properties.ContainsKey(item.Id + ":60"))
-                {
-                    DependencyService.Get<IToast>().Show("すでに通知が設定されています");
-                }
-                else
-                {
-                    MessagingCenter.Send(this, "NOTIFY");
-                    Application.Current.Properties[item.Id + ":60"] = true;
-                    DependencyService.Get<IToast>().Show(pushTitle + "の開始1時間前に通知が設定されました", true);
-                    Navigation.PopAsync();
-                }
-            }
-            else
-            {
-                DependencyService.Get<IToast>().Show("常設企画やゲリラ企画は通知を設定できません", true);
-                Navigation.PopAsync();
-            }
+            SetNotification(60);
         }
 
         private void beforeDay_Clicked(object sender, EventArgs e)
         {
-            DateTime pushTime;
-            CultureInfo culture = CultureInfo.CreateSpecificCulture("ja-JP");
-            if (DateTime.TryParse("2017/" + item.Start, culture, DateTimeStyles.None, out pushTime))
-            {
-                pushTimeMillis = (long)pushTime.AddHours(-24).ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
-                pushMessage = "明日" + item.Start + "から企画が始まります";
-                if (Application.Current.Properties.ContainsKey(item.Id + ":24"))
-                {
-                    DependencyService.Get<IToast>().Show("すでに通知が設定されています");
-                }
-                else
-                {
-                    MessagingCenter.Send(this, "NOTIFY");
-                    Application.Current.Properties[item.Id + ":24"] = true;
-                    DependencyService.Get<IToast>().Show(pushTitle + "の開始一日前に通知が設定されました", true);
-                    Navigation.PopAsync();
-                }
-            }
-            else
-            {
-                DependencyService.Get<IToast>().Show("常設企画やゲリラ企画は通知を設定できません", true);
-                Navigation.PopAsync();
-            }
+            SetNotification(1440);
         }
 
         private void beforeTwoHour_Clicked(object sender, EventArgs e)
         {
-            DateTime pushTime;
-            CultureInfo culture = CultureInfo.CreateSpecificCulture("ja-JP");
-            if (DateTime.TryParse("2017/" + item.Start, culture, DateTimeStyles.None, out pushTime))
-            {
-                pushTimeMillis = (long)pushTime.AddHours(-2).ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
-                pushMessage = "あと２時間で企画の開始時間です";
-                if (Application.Current.Properties.ContainsKey(item.Id + ":120"))
-                {
-                    DependencyService.Get<IToast>().Show("すでに通知が設定されています");
-                }
-                else
-                {
-                    MessagingCenter.Send(this, "NOTIFY");
-                    Application.Current.Properties[item.Id + ":120"] = true;
-                    DependencyService.Get<IToast>().Show(pushTitle + "の開始2時間前に通知が設定されました", true);
-                    Navigation.PopAsync();
-                }
-            }
-            else
-            {
-                DependencyService.Get<IToast>().Show("常設企画やゲリラ企画は通知を設定できません", true);
-                Navigation.PopAsync();
-            }
+            SetNotification(120);
         }
 
         private void beforeThreeHour_Clicked(object sender, EventArgs e)
         {
-            DateTime pushTime;
-            CultureInfo culture = CultureInfo.CreateSpecificCulture("ja-JP");
-            if (DateTime.TryParse("2017/" + item.Start, culture, DateTimeStyles.None, out pushTime))
+            SetNotification(180);
+        }
+
+        private void ShowToast(int min)
+        {
+            switch (min)
             {
-                pushTimeMillis = (long)pushTime.AddHours(-3).ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
-                pushMessage = "あと3時間で企画の開始時間です";
-                if (Application.Current.Properties.ContainsKey(item.Id + ":180"))
-                {
-                    DependencyService.Get<IToast>().Show("すでに通知が設定されています");
-                }
-                else
-                {
-                    MessagingCenter.Send(this, "NOTIFY");
-                    Application.Current.Properties[item.Id + ":180"] = true;
+                case 30:
+                    DependencyService.Get<IToast>().Show(pushTitle + "の開始30分前に通知が設定されました", true);
+                    break;
+                case 60:
+                    DependencyService.Get<IToast>().Show(pushTitle + "の開始1時間前に通知が設定されました", true);
+                    break;
+                case 120:
+                    DependencyService.Get<IToast>().Show(pushTitle + "の開始2時間前に通知が設定されました", true);
+                    break;
+                case 180:
                     DependencyService.Get<IToast>().Show(pushTitle + "の開始3時間前に通知が設定されました", true);
-                    Navigation.PopAsync();
-                }
-            }
-            else
-            {
-                DependencyService.Get<IToast>().Show("常設企画やゲリラ企画は通知を設定できません", true);
-                Navigation.PopAsync();
+                    break;
+                case 1440:
+                    DependencyService.Get<IToast>().Show(pushTitle + "の開始一日前に通知が設定されました", true);
+                    break;
+                default:
+                    DependencyService.Get<IToast>().Show("なにやら変なことが起きました。バグなので報告してください", true);
+                    break;
             }
         }
     }

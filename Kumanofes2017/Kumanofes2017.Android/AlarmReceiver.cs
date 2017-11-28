@@ -32,7 +32,7 @@ namespace Kumanofes2017.Droid
             builder.SetContentText(message);
 
             // 通知をタップした時に呼び出すIntent
-            var resultIntent = new Intent(context, typeof(MainActivity)); // 自分をもう1回呼ぶ
+            var resultIntent = new Intent(context, typeof(MainActivity));
             resultIntent.SetData(Android.Net.Uri.Parse(jsonItem));
             // resultIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
             /*

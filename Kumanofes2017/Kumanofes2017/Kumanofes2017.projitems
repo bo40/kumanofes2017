@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseDataObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DateItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\InfoItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Notification.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DateDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\InfoDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IToast.cs" />

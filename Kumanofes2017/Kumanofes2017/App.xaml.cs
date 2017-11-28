@@ -1,7 +1,10 @@
 ﻿using Kumanofes2017.Models;
+using Kumanofes2017.Services;
 using Kumanofes2017.ViewModels;
 using Kumanofes2017.Views;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -33,9 +36,20 @@ namespace Kumanofes2017
                 Item item = JsonConvert.DeserializeObject<Item>(startUpParam);
                 dateListPage.CurrentPage.Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
             }
+
+            if (!Application.Current.Properties.ContainsKey("update7"))
+            {
+                DependencyService.Get<IToast>().Show("アプリケーションが更新されました。通知設定が初期化されたため、もう一度設定しなおす必要があります。");
+                Application.Current.Properties["update7"] = "already";
+            }
+
+            if (!Application.Current.Properties.ContainsKey("notifications"))
+            {
+                Application.Current.Properties["notifications"] = JsonConvert.SerializeObject(new List<string>());
+            }
         }
 
-		public static void SetMainPage(NavigationPage dateListPage)
+        public static void SetMainPage(NavigationPage dateListPage)
 		{
             
             Current.MainPage = new TabbedPage
