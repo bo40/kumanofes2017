@@ -25,7 +25,11 @@ namespace Kumanofes2017.Droid
         public override void OnReceive(Context context, Intent intent)
         {
             //リマインダーをセット
-            this.SetReminder(context);
+            // this.SetReminder(context);
+            Intent mainIntent = new Intent(context, typeof(MainActivity));
+            mainIntent.AddFlags(ActivityFlags.NewTask | ActivityFlags.SingleTop);
+            // context.ApplicationContext.StartActivity(timerIntent);
+            Android.App.Application.Context.StartActivity(mainIntent);
         }
 
         //Android用のリマインダー

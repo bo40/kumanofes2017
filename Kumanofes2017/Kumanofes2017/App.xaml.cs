@@ -37,11 +37,13 @@ namespace Kumanofes2017
                 dateListPage.CurrentPage.Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
             }
 
+            
             if (!Application.Current.Properties.ContainsKey("update7"))
             {
                 DependencyService.Get<IToast>().Show("アプリケーションが更新されました。通知設定が初期化されたため、もう一度設定しなおす必要があります。");
                 Application.Current.Properties["update7"] = "already";
             }
+            
 
             if (!Application.Current.Properties.ContainsKey("notifications"))
             {
